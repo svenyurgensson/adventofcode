@@ -47,9 +47,6 @@ MXMXAXMASX
 				total_xmas++
 		}
 		// vertical
-		if i == 42 {
-			fmt.Println(i)
-		}
 		if (i <= dataLen - 3 * width - 2) &&
 			(data[i]           == 'X') &&
 			(data[i + 1*width] == 'M') &&
