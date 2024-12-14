@@ -1,35 +1,37 @@
 package utils
 
-type Stack[T any] struct {
-	keys []T
-}
+type Stack[T any] []T;
 
-func NewStack[T any]() *Stack[T] {
-	return &Stack[T]{nil}
-}
+func StackOf[T any](elems... T) Stack[T] {
+	stack := make(Stack[T], 0, len(elems))
 
-func (stack *Stack[T]) Push(key T) {
-	stack.keys = append(stack.keys, key)
-}
-
-func (stack *Stack[T]) Top() (T, bool) {
-	var x T
-	if len(stack.keys) > 0 {
-		x = stack.keys[len(stack.keys)-1]
-		return x, true
+	for _, elem := range elems {
+		stack = stack.Push(elem)
 	}
-	return x, false
+
+	return stack
 }
 
-func (stack *Stack[T]) Pop() (T, bool) {
-	var x T
-	if len(stack.keys) > 0 {
-		x, stack.keys = stack.keys[len(stack.keys)-1], stack.keys[:len(stack.keys)-1]
-		return x, true
+func (stack Stack[T]) Push(elem T) Stack[T] {
+	return append(stack, elem)
+}
+
+func (stack Stack[T]) Pop() (T, Stack[T]) {
+	if len(stack) == 0 {
+		panic("Popped empty stack")
 	}
-	return x, false
+
+	return stack[0], stack[1:]
 }
 
-func (stack *Stack[T]) IsEmpty() bool {
-	return len(stack.keys) == 0
+func (stack Stack[T]) Peek() (T, Stack[T]) {
+	if len(stack) == 0 {
+		panic("Popped empty stack")
+	}
+
+	return stack[0], stack
+}
+
+func (stack Stack[T]) IsEmpty() bool {
+	return len(stack) == 0
 }
